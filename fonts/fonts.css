@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'mrgvlovani';
+    src: url('bpg_mrgvlovani_caps_2010.eot');
+    src: url('bpg_mrgvlovani_caps_2010.eot') format('embedded-opentype'),
+         url('bpg_mrgvlovani_caps_2010.woff2') format('woff2'),
+         url('bpg_mrgvlovani_caps_2010.woff') format('woff'),
+         url('bpg_mrgvlovani_caps_2010.ttf') format('truetype'),
+         url('bpg_mrgvlovani_caps_2010.svg#bpg_mrgvlovani_caps_2010') format('svg');
+}
+
+@font-face {
+    font-family: 'algeti';
+    src: url('bpg_algeti.eot');
+    src: url('bpg_algeti.eot') format('embedded-opentype'),
+         url('bpg_algeti.woff2') format('woff2'),
+         url('bpg_algeti.woff') format('woff'),
+         url('bpg_algeti.ttf') format('truetype'),
+         url('bpg_algeti.svg#bpg_algeti') format('svg');
+}
+

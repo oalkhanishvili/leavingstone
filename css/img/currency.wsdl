@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name="NBGCurrency" targetNamespace="urn:NBGCurrency" xmlns:typens="urn:NBGCurrency" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  
+<message name="currencyCode">
+   <part name="code" type="xsd:string"/>           
+</message>
+
+<message name="typeInt">
+   <part name="return" type="xsd:int"/>           
+</message>
+
+<message name="typeFloat">
+   <part name="return" type="xsd:string"/>           
+</message>
+
+<message name="typeString">
+   <part name="return" type="xsd:string"/>           
+</message>
+
+<message name="empty"/>
+
+
+<portType name='NBGCurrencyPort'>
+
+  <operation name="GetCurrency">
+    <input  message="typens:currencyCode"/>
+    <output message="typens:typeFloat"/>
+  </operation>  
+  
+  <operation name="GetCurrencyDescription">
+    <input  message="typens:currencyCode"/>
+    <output message="typens:typeString"/>
+  </operation>  
+
+  <operation name="GetCurrencyChange">
+    <input  message="typens:currencyCode"/>
+    <output message="typens:typeFloat"/>
+  </operation>  
+
+  <operation name="GetCurrencyRate">
+    <input  message="typens:currencyCode"/>
+    <output message="typens:typeInt"/>
+  </operation> 
+    
+  <operation name="GetDate">
+    <input message="typens:empty"/>
+    <output message="typens:typeString"/>
+  </operation>
+
+</portType>
+
+<binding name='NBGCurrencyBinding' type='typens:NBGCurrencyPort'>
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" /> 
+  
+  <operation name="GetCurrency">
+    <soap:operation soapAction="GetCurrency"/>
+    <input>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+    </input>
+    <output>
+       <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output>  
+  </operation>
+
+  <operation name="GetCurrencyDescription">
+    <soap:operation soapAction="GetCurrencyDescription"/>
+    <input>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+    </input>
+    <output>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output>
+  </operation>
+  
+  <operation name="GetCurrencyChange">
+    <soap:operation soapAction="GetCurrencyChange"/>
+    <input>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+    </input>
+    <output>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output>
+  </operation> 
+  
+  <operation name="GetCurrencyRate">
+    <soap:operation soapAction="GetCurrencyRate"/>
+    <input>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+    </input>
+    <output>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output>
+  </operation>   
+    
+  <operation name="GetDate">
+    <soap:operation soapAction="GetDate"/>
+    <input>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+    </input>
+    <output>
+      <soap:body use='encoded' namespace='urn:NBGCurrency' encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/> 
+    </output>
+  </operation>     
+  
+</binding>
+
+<service name='NBGCurrencyService'>
+  <port name='NBGCurrencyPort' binding='typens:NBGCurrencyBinding'>
+    <soap:address location='http://nbg.gov.ge/currency_service.php'/>
+  </port>
+</service>
+</definitions>
