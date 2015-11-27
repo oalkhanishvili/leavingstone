@@ -16,6 +16,7 @@
 
     <!-- Morris Charts CSS -->
     <link href="<?php echo base_url('css/plugins/morris.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('css/style.css'); ?>" rel="stylesheet">
     <script src="<?php echo base_url('ckeditor/ckeditor.js'); ?>"></script>
     <!-- Custom Fonts -->
     <link href="<?php echo base_url('font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">

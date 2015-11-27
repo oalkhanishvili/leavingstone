@@ -9,7 +9,7 @@
               <div class="row">
                   <div class="col-lg-12">
                       <h1 class="page-header">
-                          Tables
+                          <?=$project_title['title']?>
                       </h1>
                       <ol class="breadcrumb">
                           <li>
@@ -19,7 +19,7 @@
                               <i class="fa fa-table"></i><a href=<?php echo site_url('manager/projects');?>> დავალებები</a>
                           </li>
                           <li class="active">
-                           <i class="fa fa-table"></i> დავალება
+                           <i class="fa fa-table"></i> <?=$project_title['title']?>
                           </li>
                       </ol>
                   </div>
@@ -28,7 +28,7 @@
 <div class="col-lg-8">
   <div class="input-group">
     <div class="alert alert-info" role="alert">
-    <p>ამანათების მასიურად ასატვირთად საჭიროა გადმოტვირთოთ excel ფაილის ნიმუში და შესაბამისი სათაურების ქვევით ჩამოწეროთ მონაცემები.თუ არ გინდათ რომელიმე პარამეტრის შეტანა დატოვეთ ცარიელი</p>
+    <p>მოცემულ პროექტზე საჭიროა შექმნათ დავალებები და გაანაწილოთ მომხმარებლებზე.დავალების შესრულების შემდეგ ღილაკზე "Done" დაჭერით გააკეთეთ აღნიშვნა</p>
   </div>
 
   </div><!-- /input-group -->
@@ -68,6 +68,16 @@
                  </select>
              </div>
              <div class="form-group">
+                <label>სტატუსი:</label>
+                <select name="status">
+                  <option value="content">content</option>
+                  <option value="front-end">front-end</option>
+                  <option value="back-end">back-end</option>
+                  <option value="bug">bug</option>
+                  <option value="important">important</option>
+                </select>
+            </div>
+             <div class="form-group">
                 <label>შემსრულებელი:</label>
                 <p>
                     <input type="file" name="userfile" id="userfile"/>
@@ -88,34 +98,49 @@
     <thead>
     <tr>
     <th><span class="glyphicon glyphicon-th"></span></th>
+      <th>სათაური</th>
       <th>სტატუსი</th>
-      <th>აღწერა</th>
       <th>შემსრულებელი</th>
+      <th>შექმ.დრო</th>
+      <th>დასრ.დრო</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <?php if ( !empty($tasks_list) ): ?>
+      <?php foreach ( $tasks_list as $item ): ?>
+    <tr class="<?php  echo  $item['done']==0 ? '': 'success' ?>">
         <td>
         <!-- Split button -->
+        <?php echo form_open('manager/done/'.$item['id'] , array('id' => $item['id'], 'class' => 'shesruleba')); ?>
         <div class="btn-group">
-
+          <?php if ( $item['done'] == 1){
+                  $a = 0;
+              }else{
+                  $a = 1;
+              }
+           ?>
+           <input  type="hidden" name="done" value="<?php echo $a; ?>" data-id="<?=$item['id']; ?>">
               <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
-          <button class="btn btn-danger" type="submit" data-id="">გაცემა</button>
+          <button class="btn btn-danger" type="submit" data-id="<?=$item['id']; ?>">Done</button>
           <ul class="dropdown-menu">
+            <li><a href="<?=base_url('manager/detail_task/'.$item['id'])?>">დეტალურად</a></li>
             <li><a href="">რედაქტირება</a></li>
             <li> <a href="" onclick="confirm_delete()">წაშლა</a></li>
           </ul>
         </div>
         </form>
        </td>
-        <td>1231</td>
-        <td>1231</td>
-        <td>1231</td>
-
+        <td><?=$item['title'];?></td>
+        <td><?=$item['status'];?></td>
+        <td><?=$item['name_en'];?></td>
+        <td><?= date( 'Y/m/d H:i:s', strtotime($item['create_date']) );?></td>
+        <td><?= date( 'Y/m/d H:i:s', strtotime($item['finish_date']) );?></td>
     </tr>
+  <?php endforeach; ?>
+<?php endif; ?>
     </tbody>
     </table>
   </div>

@@ -47,8 +47,8 @@ class manager_model extends CI_Model{
 	 * @param int $id
 	 * @return array
 	 */
-	public function selectById($table, $id){
-		$query = $this->db->select('*')
+	public function selectById($table,$fields, $id){
+		$query = $this->db->select($fields)
 			->where('id', $id)
 			->get($table);
 		if ( $query->num_rows() > 0 ){
@@ -57,7 +57,37 @@ class manager_model extends CI_Model{
 		}
 		return false;
 	}
-
+	//
+	public function selectTasksById($field,$id){
+		$query = $this->db->select('tasks.*,users.name_en')
+			->where('tasks.'.$field, $id)
+			->join('users','users.id=tasks.user_id')->get('tasks');
+		if ( $query->num_rows() > 0 ){
+			foreach ( $query->result_array() as $row ){
+				$result[] = $row;
+			}
+			return $result;
+		}
+		return false;
+	}
+	public function selectDetailTask($id){
+		$query = $this->db->select('tasks.*,users.name_en,projects.title as p_title')
+			->where('tasks.id', $id)
+			->join('users','users.id=tasks.user_id')
+			->join('projects','projects.id=tasks.project_id')->get('tasks');
+		if ( $query->num_rows() > 0 ){
+			foreach ( $query->result_array() as $row ){
+				$result[] = $row;
+			}
+			$query = $this->db->select('*')->where('task_id',$id)->get('comments');
+			foreach ($query->result_array() as $row) {
+				$result['comments'][] = $row;
+			}
+			return $result;
+		}
+		return false;
+	}
+	//
 	public function select_all_parcels($limit, $start, $sort_by, $sort_order){
 		$sort_order = ( $sort_order == 'desc' )?'desc':'asc';
 		$sort_columns = array(

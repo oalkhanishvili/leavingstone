@@ -50,6 +50,7 @@ class manager extends CI_Controller{
 			'title' => $this->input->post('title'),
 			'description' => $this->input->post('description'),
 			'user_id' => $this->session->userdata('logged'),
+
 		);
 		$this->db->insert('Projects', $data);
 		$_SESSION['message'] = 'ჩანაწერი დამატებულია';
@@ -60,7 +61,9 @@ class manager extends CI_Controller{
 		$this->load->view('manager/header');
 		$data['admin_name'] = $this->session->userdata('logged');
 		$data['project_id'] = $id;
+		$data['project_title'] = $this->manager_model->selectById('projects','title',$id);
 		$data['users_list'] = $this->manager_model->selectAll('users');
+		$data['tasks_list'] = $this->manager_model->selectTasksById('project_id', $id);
 		$this->load->view('manager/top-menu', $data);
 		$this->load->view('manager/side-navigation');
 		$this->load->view('manager/Tasks', $data);
@@ -73,7 +76,7 @@ class manager extends CI_Controller{
 				$config['overwrite']      = true;
 
 			$this->load->library('upload', $config);
-			if ( !$this->upload->do_upload('userfile') ){
+			if ( !$this->upload->do_upload() && isset($_POST['userfile'])){
 			$error = array( 'error' => $this->upload->display_errors() );
 			  print_r( $error);
 			}else{
@@ -83,7 +86,8 @@ class manager extends CI_Controller{
 					'description' => $_POST['description'],
 					'project_id' => $_POST['project_id'],
 					'user_id' => $_POST['user_id'],
-					'attachment' => $data['upload_data']['file_name'],
+					'status'=> $_POST['status'],
+					'attachment' => @$data['upload_data']['file_name'],
 				);
 				$this->db->insert('tasks', $array);
 				$_SESSION['message'] =  'დავალება დამატებულია';
@@ -91,6 +95,43 @@ class manager extends CI_Controller{
 				redirect('manager/tasks/'.$_POST['project_id']);
 			}
 		}
+	}
+	public function detail_task($id){
+		$this->load->view('manager/header');
+		$data['admin_name'] = $this->session->userdata('logged');
+		$data['users_list'] = $this->manager_model->selectAll('users');
+		$data['tasks_list'] = $this->manager_model->selectDetailTask($id);
+		$this->load->view('manager/top-menu', $data);
+		$this->load->view('manager/side-navigation');
+		$this->load->view('manager/Detail_task', $data);
+		$this->load->view('manager/footer');
+	}
+	public function add_comment(){
+		$comment = $this->input->post('comment');
+		$user_id = $this->input->post('user_id');
+		$task_id = $this->input->post('task_id');
+		$data = array(
+			'comment' => $comment,
+			'user_id' => $user_id,
+			'task_id' => $task_id,
+		);
+		$this->db->insert('comments', $data);
+		$html = '<li><div class="commenterImage">
+					<img src="http://lorempixel.com/50/50/people/6" />
+				</div>
+				<div class="commentText">
+						<p class="">'.$comment.'</p>
+						<span class="date sub-text">'.date('\o\n M jS, Y').'</span>
+				</div>
+		</li>';
+		echo json_encode($html);
+	}
+	public function done($id){
+		$key = $this->input->post('done');
+		$data['done'] = $key;
+		( $key == 1 ) ? $data['finish_date'] = date('Y-m-d H:i:s'):$data['finish_date'] = '';
+		$this->db->where('id', $id);
+		$this->db->update('tasks', $data);
 	}
 	//-------------------------
 	public function amanatebi($sort_by='id', $sort_order='desc', $offset='0'){
