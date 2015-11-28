@@ -16,7 +16,7 @@
                               <i class="fa fa-dashboard"></i>  <a href=<?php echo site_url('manager');?>>მთავარი</a>
                           </li>
                           <li>
-                              <i class="fa fa-table"></i><a href=<?php echo site_url('manager/projects');?>> დავალებები</a>
+                              <i class="fa fa-table"></i><a href=<?php echo site_url('manager/projects');?>> პროექტები</a>
                           </li>
                           <li class="active">
                            <i class="fa fa-table"></i> <?=$project_title['title']?>
@@ -35,10 +35,9 @@
 </div>
 </div><!-- /.col-lg-6 -->
 <div class="row">
-<h2>დავალებების სია</h2>
-
   <div class="col-lg-12">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">დავალების დამატება</button>
+    <h2>დავალებების სია</h2>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -51,7 +50,7 @@
               <input type="hidden" name="project_id" value="<?=$project_id?>">
               <div class="form-group">
                 <label for="recipient-name" class="control-label">სათაური:</label>
-                <input type="text" class="form-control" id="recipient-name" name="title">
+                <input type="text" class="form-control" id="recipient-name" name="title" required title="დავალების სათაური აუცილებელია">
               </div>
               <div class="form-group">
                 <label for="message-text" class="control-label">აღწერა:</label>
@@ -60,16 +59,19 @@
               <div class="form-group">
                  <label>შემსრულებელი:</label>
                  <select name="user_id">
-                   <?php if ( !empty($users_list) ): ?>
+                   <?php if ( !empty($users_list) ):?>
+                     <option value="<?=$_SESSION['user_id'];?>">შევასრულებ მე</option>
+                     <?php unset($users_list[array_search($_SESSION['user_id'],$users_list)]); ?>
                      <?php foreach ( $users_list as $item ): ?>
-                     <option value="<?=$item['id']?>"><?=$item['id']?></option>
+                     <option value="<?=$item['id']?>"><?=$item['name_en']?></option>
                     <?php endforeach; ?>
                   <?php endif; ?>
                  </select>
              </div>
              <div class="form-group">
                 <label>სტატუსი:</label>
-                <select name="status">
+                <select name="status" required title="გთხოვთ აირჩიოთ სტატუსი">
+                  <option value="">აირჩიეთ ტიპი</option>
                   <option value="content">content</option>
                   <option value="front-end">front-end</option>
                   <option value="back-end">back-end</option>
@@ -78,7 +80,7 @@
                 </select>
             </div>
              <div class="form-group">
-                <label>შემსრულებელი:</label>
+                <label>მიმაგრებლი ფაილი:</label>
                 <p>
                     <input type="file" name="userfile" id="userfile"/>
                 </p>
@@ -87,8 +89,8 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">დახურვა</button>
-            <button type="submit" class="btn btn-primary">დამატება</button>
+            <button type="button" class="btn btn-default cancel-task" data-dismiss="modal">დახურვა</button>
+            <button type="submit" class="btn btn-primary create-task">დამატება</button>
             </form>
           </div>
         </div>
@@ -136,8 +138,9 @@
         <td><?=$item['title'];?></td>
         <td><?=$item['status'];?></td>
         <td><?=$item['name_en'];?></td>
-        <td><?= date( 'Y/m/d H:i:s', strtotime($item['create_date']) );?></td>
-        <td><?= date( 'Y/m/d H:i:s', strtotime($item['finish_date']) );?></td>
+        <td><?= date( 'd/m/y -> H:i', strtotime($item['create_date']) );?></td>
+        <td><?= (!empty(strtotime($item['finish_date'])))?
+        date( 'd/m/y -> H:i', strtotime($item['finish_date']) ):'პროცესში';?></td>
     </tr>
   <?php endforeach; ?>
 <?php endif; ?>

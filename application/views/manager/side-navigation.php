@@ -27,11 +27,31 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> პროექტები <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="<?php echo site_url('manager/top_page'); ?>"><i class="fa fa-fw fa-plus"></i> პროექტის შექმნა</a>
+                                <a href="<?php echo site_url('manager/create_project'); ?>"><i class="fa fa-fw fa-plus"></i> პროექტის შექმნა</a>
                             </li>
-                            <li>
-                                <a href="<?php echo site_url('manager/left_navigation'); ?>"><i class="fa fa-fw fa-file"></i> გვერდითა ნავიგაცია</a>
-                            </li>
+                            <?php $result = $this->db->select('id,title')->get('projects')->result(); ?>
+                            <?php if (!empty($result)): ?>
+                              <?php foreach ($result  as  $item): ?>
+                                <li>
+                                    <a href="<?php echo site_url('manager/tasks/'.$item->id); ?>">
+                                      <i class="fa fa-fw fa-file"></i> <?=$item->title;?>
+                                      <div class="dropdown">
+                                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          <i class="glyphicon glyphicon-option-vertical"></i>
+                                          <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                          <li>დეტალები</li>
+                                          <li>რედაქტირება</li>
+                                          <li>წაშლა</li>
+                                        </ul>
+                                      </div>
+                                    </a>
+
+                                </li>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
+
                         </ul>
                     </li>
                     <li>

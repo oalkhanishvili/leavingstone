@@ -29,6 +29,8 @@ class manager extends CI_Controller{
 		if ( $this->manager_model->admin_login($username, $password) == FALSE ){
 			$this->load->view('manager/login-form');
 		}else{
+			$user_id = $this->db->select('id')->where('username', $username)->get('users')->row()->id;
+			$this->session->set_userdata('user_id', $user_id);
 			$this->session->set_userdata('logged', $username);
 			redirect('manager');
 		}
@@ -49,7 +51,7 @@ class manager extends CI_Controller{
 		$data = array(
 			'title' => $this->input->post('title'),
 			'description' => $this->input->post('description'),
-			'user_id' => $this->session->userdata('logged'),
+			'user_id' => $this->session->userdata('user_id'),
 
 		);
 		$this->db->insert('Projects', $data);
@@ -62,7 +64,7 @@ class manager extends CI_Controller{
 		$data['admin_name'] = $this->session->userdata('logged');
 		$data['project_id'] = $id;
 		$data['project_title'] = $this->manager_model->selectById('projects','title',$id);
-		$data['users_list'] = $this->manager_model->selectAll('users');
+		$data['users_list'] = $this->manager_model->selectAll('users','id,name_en');
 		$data['tasks_list'] = $this->manager_model->selectTasksById('project_id', $id);
 		$this->load->view('manager/top-menu', $data);
 		$this->load->view('manager/side-navigation');
@@ -107,24 +109,76 @@ class manager extends CI_Controller{
 		$this->load->view('manager/footer');
 	}
 	public function add_comment(){
-		$comment = $this->input->post('comment');
-		$user_id = $this->input->post('user_id');
-		$task_id = $this->input->post('task_id');
+		if ( isset($_POST['comment']) && !empty($_POST['comment']) ){
+			$comment = $this->input->post('comment');
+			$user_id = $this->session->userdata('user_id');
+			$task_id = $this->input->post('task_id');
+			$username = $this->db->select('name_en')->where('id', $user_id)->get('users')->row()->name_en;
+			$data = array(
+				'comment' => $comment,
+				'user_id' => $user_id,
+				'task_id' => $task_id,
+			);
+			$this->db->insert('comments', $data);
+			$html = '<li>
+					<div class="commenterImage">
+						<p rel="tooltip" data-placement="right" data-original-title="'.$username.'">
+							'.strtoupper($username[0]).'</p>
+					</div>
+					<div class="commentText">
+							<p class="u-comment">'.$comment.'</p>';
+
+			$html .=	'<span class="date sub-text">'.date('\o\n M jS, Y').'</span>
+					</div>
+			</li>';
+			echo '{"status":1,"html":'.json_encode($html).'}';
+		}else{
+			echo '{"status":0}';
+		}
+	}
+	public function file_upload(){
+		if (empty($_FILES) || $_FILES["file"]["error"]) {
+    	die('{"OK": 0}');
+		}
+		$fileName = $_FILES["file"]["name"];
+		move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/$fileName");
 		$data = array(
-			'comment' => $comment,
-			'user_id' => $user_id,
-			'task_id' => $task_id,
+			'attachment' => $fileName,
+			'user_id' => $this->session->userdata('user_id'),
+			'task_id' => $_POST['task_id']
 		);
 		$this->db->insert('comments', $data);
-		$html = '<li><div class="commenterImage">
-					<img src="http://lorempixel.com/50/50/people/6" />
+		$username = $this->db->select('name_en')->where('id', $this->session->userdata('user_id'))
+		->get('users')->row()->name_en;
+		$html = '<li>
+				<div class="commenterImage">
+					<p rel="tooltip" data-placement="right" data-original-title="'.$username.'">
+						'.strtoupper($username[0]).'</p>
 				</div>
 				<div class="commentText">
-						<p class="">'.$comment.'</p>
-						<span class="date sub-text">'.date('\o\n M jS, Y').'</span>
+				<p class="u-attachment"><i class="fa fa-link"></i>
+				<a href="'.site_url('manager/file_download/'.$fileName).'">
+				'.$fileName.'</a></p>';
+
+		$html .=	'<span class="date sub-text">'.date('\o\n M jS, Y').'</span>
 				</div>
 		</li>';
-		echo json_encode($html);
+
+		die('{"OK": 1,"html":'.json_encode($html).'}');
+	}
+	public function file_download($name){
+		$file = './uploads/'.$name;
+		if ( file_exists($file) ){
+			header("Pragma: public");
+			header("Expires: 0");
+			header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+			header("Content-Type: application/force-download");
+			header( "Content-Disposition: attachment; filename=".basename($file));
+			header( "Content-Description: File Transfer");
+			@readfile($file);
+		}else{
+			die('ფაილი სერვერიდან წაშლილია');
+		}
 	}
 	public function done($id){
 		$key = $this->input->post('done');

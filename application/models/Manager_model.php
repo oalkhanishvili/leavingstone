@@ -28,8 +28,8 @@ class manager_model extends CI_Model{
 	 * @param string $table
 	 * @return array
 	 */
-	public function selectAll($table, $key='', $order_by = '', $limit = '', $offset = ''){
-		$query = $this->db->select('*')
+	public function selectAll($table, $fields = '*', $key='', $order_by = '', $limit = '', $offset = ''){
+		$query = $this->db->select($fields)
 			->order_by($key, $order_by)
 			->get($table, $limit, $offset);
 		if ( $query->num_rows() > 0 ){
@@ -79,7 +79,8 @@ class manager_model extends CI_Model{
 			foreach ( $query->result_array() as $row ){
 				$result[] = $row;
 			}
-			$query = $this->db->select('*')->where('task_id',$id)->get('comments');
+			$query = $this->db->select('comments.*,users.name_en as user')->where('comments.task_id',$id)
+			->join('users', 'users.id=comments.user_id')->get('comments');
 			foreach ($query->result_array() as $row) {
 				$result['comments'][] = $row;
 			}

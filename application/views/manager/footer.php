@@ -11,7 +11,7 @@
     <script src="<?php echo base_url('js/plugins/morris/raphael.min.js'); ?>"></script>
     <script src="<?php echo base_url('js/plugins/morris/morris.min.js'); ?>"></script>
     <script src="<?php echo base_url('js/plugins/morris/morris-data.js'); ?>"></script>
-    <script src="<?php echo base_url('js/tableExport.js'); ?>"></script>
+    <script src="<?php echo base_url('up/plupload.full.min.js'); ?>"></script>
     <script src="<?php echo base_url('js/jquery.base64.js'); ?>"></script>
     <script src="<?php echo base_url('js/app.js'); ?>"></script>
 
@@ -31,12 +31,12 @@
         var tr = $(this).closest('tr');
         $.post( $(this).attr('action'), $(this).serialize(), function(resp) {
             tr.toggleClass('success');
-            var value = tr.find('input[name=done]').attr("value")
+            var value = tr.find('input[name=taken]').attr("value")
             if(value == 1) {
-                tr.find('input[name=done]').attr("value", 0);
+                tr.find('input[name=taken]').attr("value", 0);
             }
             else if (value == 0) {
-                tr.find('input[name=done]').attr("value", 1);
+                tr.find('input[name=taken]').attr("value", 1);
             }
 
             if ( resp == 'ok' ) {

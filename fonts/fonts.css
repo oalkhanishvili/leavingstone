@@ -1,4 +1,45 @@
 @font-face {
+    font-family: 'BPGArial';
+    src: url('BPGArial.eot');
+    src: url('BPGArial.eot') format('embedded-opentype'),
+         url('BPGArial.woff') format('woff'),
+         url('BPGArial.ttf') format('truetype'),
+         url('BPGArial.svg#BPGArial') format('svg');
+}
+@font-face {
+    font-family: 'BPGExcelsiorCondCaps';
+    src: url('BPGExcelsiorCondCaps.eot');
+    src: url('BPGExcelsiorCondCaps.eot') format('embedded-opentype'),
+         url('BPGExcelsiorCondCaps.woff') format('woff'),
+         url('BPGExcelsiorCondCaps.ttf') format('truetype'),
+         url('BPGExcelsiorCondCaps.svg#BPGExcelsiorCondCaps') format('svg');
+}
+@font-face {
+    font-family: 'BPGRioniArial';
+    src: url('BPGRioniArial.eot');
+    src: url('BPGRioniArial.eot') format('embedded-opentype'),
+         url('BPGRioniArial.woff') format('woff'),
+         url('BPGRioniArial.ttf') format('truetype'),
+         url('BPGRioniArial.svg#BPGRioniArial') format('svg');
+}
+@font-face {
+    font-family: 'HelveticaLight';
+    src: url('HelveticaLight.eot');
+    src: url('HelveticaLight.eot') format('embedded-opentype'),
+         url('HelveticaLight.woff') format('woff'),
+         url('HelveticaLight.ttf') format('truetype'),
+         url('HelveticaLight.svg#HelveticaLight') format('svg');
+}
+@font-face {
+	font-family: 'Roboto';
+	src: url('Roboto-Thin.eot');
+	src: url('Roboto-Thin.woff') format('woff'),
+       url('Roboto-Thin.ttf') format('truetype'),
+       url('Roboto-Thin.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
     font-family: 'mrgvlovani';
     src: url('bpg_mrgvlovani_caps_2010.eot');
     src: url('bpg_mrgvlovani_caps_2010.eot') format('embedded-opentype'),
@@ -17,4 +58,3 @@
          url('bpg_algeti.ttf') format('truetype'),
          url('bpg_algeti.svg#bpg_algeti') format('svg');
 }
-
