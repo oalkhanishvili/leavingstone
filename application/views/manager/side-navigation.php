@@ -35,19 +35,8 @@
                                 <li>
                                     <a href="<?php echo site_url('manager/tasks/'.$item->id); ?>">
                                       <i class="fa fa-fw fa-file"></i> <?=$item->title;?>
-                                      <div class="dropdown">
-                                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <i class="glyphicon glyphicon-option-vertical"></i>
-                                          <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dLabel">
-                                          <li>დეტალები</li>
-                                          <li>რედაქტირება</li>
-                                          <li>წაშლა</li>
-                                        </ul>
-                                      </div>
-                                    </a>
 
+                                    </a>
                                 </li>
                               <?php endforeach; ?>
                             <?php endif; ?>

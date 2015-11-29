@@ -47,7 +47,7 @@ class manager_model extends CI_Model{
 	 * @param int $id
 	 * @return array
 	 */
-	public function selectById($table,$fields, $id){
+	public function selectById($table,$fields='*', $id){
 		$query = $this->db->select($fields)
 			->where('id', $id)
 			->get($table);
@@ -58,6 +58,27 @@ class manager_model extends CI_Model{
 		return false;
 	}
 	//
+	public function selectAllProjects(){
+		$query = $this->db->select('projects.*,users.id as u_id,users.name_en')
+			->join('users','users.id=projects.user_id')->get('projects');
+		if ( $query->num_rows() > 0 ){
+			foreach ( $query->result_array() as $row ){
+				$result[] = $row;
+			}
+			return $result;
+		}
+		return false;
+	}
+	public function selectDetailProject($id){
+		$query = $this->db->select('projects.*,users.name_en')
+			->where('projects.id', $id)
+			->join('users','users.id=projects.user_id')->get('projects');
+		if ( $query->num_rows() > 0 ){
+				$result = $query->row_array();
+			return $result;
+		}
+		return false;
+	}
 	public function selectTasksById($field,$id){
 		$query = $this->db->select('tasks.*,users.name_en')
 			->where('tasks.'.$field, $id)
@@ -87,6 +108,15 @@ class manager_model extends CI_Model{
 			return $result;
 		}
 		return false;
+	}
+	/**
+	 * მონაცემის წაშლა ბაზიდან
+	 * @param  string $table
+	 * @param  numeric $id
+	 */
+	public function delete_obj($table, $id){
+		$this->db->where('id', $id);
+		$this->db->delete($table);
 	}
 	//
 	public function select_all_parcels($limit, $start, $sort_by, $sort_order){
@@ -233,15 +263,6 @@ class manager_model extends CI_Model{
 	public function update_top_page($id, $data){
 		$this->db->where('id', $id);
 		$this->db->update('pages', $data);
-	}
-	/**
-	 * მონაცემის წაშლა ბაზიდან
-	 * @param  string $table
-	 * @param  numeric $id
-	 */
-	public function delete_obj($table, $id){
-		$this->db->where('id', $id);
-		$this->db->delete($table);
 	}
 // გვერდითა ნავიგაცია
 	public function insert_left_navigation($data){

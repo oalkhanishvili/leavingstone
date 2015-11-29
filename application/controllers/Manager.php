@@ -39,6 +39,55 @@ class manager extends CI_Controller{
 		$this->session->unset_userdata('logged');
 		redirect('manager');
 	}
+	public function projects(){
+		$this->load->view('manager/header');
+		$data['admin_name'] = $this->session->userdata('logged');
+		$data['users_list'] = $this->manager_model->selectAll('users','id,name_en');
+		$data['projects_list'] = $this->manager_model->selectAllProjects();
+		$this->load->view('manager/top-menu', $data);
+		$this->load->view('manager/side-navigation');
+		$this->load->view('manager/Projects', $data);
+		$this->load->view('manager/footer');
+	}
+	public function detail_project($id){
+		$this->load->view('manager/header');
+		$data['admin_name'] = $this->session->userdata('logged');
+		$data['users_list'] = $this->manager_model->selectAll('users');
+		$data['project_list'] = $this->manager_model->selectDetailProject($id);
+		$this->load->view('manager/top-menu', $data);
+		$this->load->view('manager/side-navigation');
+		$this->load->view('manager/Detail_project', $data);
+		$this->load->view('manager/footer');
+	}
+	public function edit_project($id){
+		$this->load->view('manager/header');
+		$data['admin_name'] = $this->session->userdata('logged');
+		$this->load->view('manager/top-menu', $data);
+		$this->load->view('manager/side-navigation');
+		$data['project_list'] = $this->manager_model->selectById('projects','*',$id);
+		$this->load->view('manager/Edit_project', $data);
+		$this->load->view('manager/footer');
+	}
+	public function update_project($id){
+		$time = $_POST['date'].' '.$_POST['clock'];
+		$date = date('Y-m-d H:i:s',strtotime($time));
+		$data = array(
+			'title' => $this->input->post('title'),
+			'description' => $this->input->post('description'),
+			'create_date' => $date
+		);
+		$this->db->where('id', $id);
+		$this->db->update('Projects', $data);
+		$_SESSION['message'] = 'ჩანაწერი განახლებულია';
+		$this->session->mark_as_flash('message');
+		redirect('manager/edit_project/'.$id);
+	}
+	public function delete_project($id){
+		$this->manager_model->delete_obj('projects', $id);
+		$_SESSION['message'] = 'ჩანაწერი წაიშალა';
+		$this->session->mark_as_flash('message');
+		redirect ('manager/projects');
+	}
 	public function create_project(){
 		$this->load->view('manager/header');
 		$data['admin_name'] = $this->session->userdata('logged');
@@ -107,6 +156,39 @@ class manager extends CI_Controller{
 		$this->load->view('manager/side-navigation');
 		$this->load->view('manager/Detail_task', $data);
 		$this->load->view('manager/footer');
+	}
+	public function edit_task($id){
+		$this->load->view('manager/header');
+		$data['admin_name'] = $this->session->userdata('logged');
+		$this->load->view('manager/top-menu', $data);
+		$this->load->view('manager/side-navigation');
+		$data['users_list'] = $this->manager_model->selectAll('users');
+		$data['task_list'] = $this->manager_model->selectById('tasks','*',$id);
+		$this->load->view('manager/Edit_task', $data);
+		$this->load->view('manager/footer');
+	}
+	public function update_task($id){
+		$time = $_POST['date'].' '.$_POST['clock'];
+		$date = date('Y-m-d H:i:s',strtotime($time));
+		$data = array(
+			'title' => $this->input->post('title'),
+			'description' => $this->input->post('description'),
+			'status' => $this->input->post('status'),
+			'user_id' => $this->input->post('user'),
+			'create_date' => $date
+		);
+		$this->db->where('id', $id);
+		$this->db->update('tasks', $data);
+		$_SESSION['message'] = 'ჩანაწერი განახლებულია';
+		$this->session->mark_as_flash('message');
+		redirect('manager/edit_task/'.$id);
+	}
+	public function delete_task($id){
+		$p_id = $this->db->select('project_id')->where('id',$id)->get('tasks')->row()->project_id;
+		$this->manager_model->delete_obj('tasks', $id);
+		$_SESSION['message'] = 'ჩანაწერი წაიშალა';
+		$this->session->mark_as_flash('message');
+		redirect ('manager/tasks/'.$p_id);
 	}
 	public function add_comment(){
 		if ( isset($_POST['comment']) && !empty($_POST['comment']) ){
@@ -180,12 +262,13 @@ class manager extends CI_Controller{
 			die('ფაილი სერვერიდან წაშლილია');
 		}
 	}
-	public function done($id){
+	public function done($id,$table){
 		$key = $this->input->post('done');
 		$data['done'] = $key;
 		( $key == 1 ) ? $data['finish_date'] = date('Y-m-d H:i:s'):$data['finish_date'] = '';
 		$this->db->where('id', $id);
-		$this->db->update('tasks', $data);
+		$this->db->update($table , $data);
+		echo $this->db->last_query();
 	}
 	//-------------------------
 	public function amanatebi($sort_by='id', $sort_order='desc', $offset='0'){

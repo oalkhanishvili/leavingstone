@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2015 at 03:30 PM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Nov 29, 2015 at 05:48 PM
+-- Server version: 5.6.24
+-- PHP Version: 5.6.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `admins` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `username` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -46,7 +46,7 @@ INSERT INTO `admins` (`id`, `username`, `password`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `amanati` (
-`id` int(4) NOT NULL,
+  `id` int(4) NOT NULL,
   `amanati` varchar(14) NOT NULL,
   `saxeli` varchar(50) CHARACTER SET utf8 NOT NULL,
   `kodi` int(20) NOT NULL,
@@ -292,7 +292,7 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `close_day` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `respond` text NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -312,13 +312,13 @@ INSERT INTO `close_day` (`id`, `respond`, `date`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `comments` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
   `task_id` int(5) NOT NULL,
   `comment` text CHARACTER SET utf8 NOT NULL,
   `attachment` varchar(255) NOT NULL,
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `comments`
@@ -409,7 +409,10 @@ INSERT INTO `comments` (`id`, `user_id`, `task_id`, `comment`, `attachment`, `cr
 (94, 115, 1, 'asfasfasf', '', '2015-11-28 12:09:46'),
 (95, 115, 1, 'sdffsd', '', '2015-11-28 12:09:49'),
 (96, 115, 1, 'sgsdg', '', '2015-11-28 12:34:20'),
-(97, 115, 1, '', 'sb-admin-rtl.css', '2015-11-28 12:34:25');
+(97, 115, 1, '', 'sb-admin-rtl.css', '2015-11-28 12:34:25'),
+(98, 115, 1, 'asfsf', '', '2015-11-29 11:51:34'),
+(99, 115, 1, 'asf', '', '2015-11-29 13:22:52'),
+(100, 115, 1, '', 'style.css', '2015-11-29 13:23:00');
 
 -- --------------------------------------------------------
 
@@ -418,7 +421,7 @@ INSERT INTO `comments` (`id`, `user_id`, `task_id`, `comment`, `attachment`, `cr
 --
 
 CREATE TABLE IF NOT EXISTS `curency` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `cur` varchar(50) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -436,7 +439,7 @@ INSERT INTO `curency` (`id`, `cur`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `navigation` (
-`id` int(4) NOT NULL,
+  `id` int(4) NOT NULL,
   `nav_name` varchar(200) NOT NULL,
   `content` text NOT NULL,
   `position` int(4) NOT NULL,
@@ -461,7 +464,7 @@ INSERT INTO `navigation` (`id`, `nav_name`, `content`, `position`, `visible`) VA
 --
 
 CREATE TABLE IF NOT EXISTS `news` (
-`id` int(4) NOT NULL,
+  `id` int(4) NOT NULL,
   `title` varchar(200) CHARACTER SET utf8 NOT NULL,
   `content` text CHARACTER SET utf8 NOT NULL,
   `visible` int(4) NOT NULL,
@@ -475,7 +478,7 @@ CREATE TABLE IF NOT EXISTS `news` (
 --
 
 CREATE TABLE IF NOT EXISTS `pages` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `menu_name` varchar(50) CHARACTER SET utf8 NOT NULL,
   `position` int(11) NOT NULL,
   `visible` int(11) NOT NULL,
@@ -500,7 +503,7 @@ INSERT INTO `pages` (`id`, `menu_name`, `position`, `visible`, `content`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `payment` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `user_id` int(10) NOT NULL,
   `debit` varchar(225) NOT NULL,
   `credit` varchar(225) NOT NULL,
@@ -558,20 +561,23 @@ INSERT INTO `payment` (`id`, `user_id`, `debit`, `credit`, `transaction_id`, `da
 --
 
 CREATE TABLE IF NOT EXISTS `projects` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
-  `user_id` varchar(200) NOT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `user_id` int(5) NOT NULL,
+  `done` int(5) NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `finish_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `projects`
 --
 
-INSERT INTO `projects` (`id`, `title`, `description`, `user_id`, `create_date`) VALUES
-(1, 'safasf', '<p>asfasf</p>\r\n', 'admin', '2015-11-26 12:18:24'),
-(2, 'asfa', '<p>asfsaf</p>\r\n', 'admin', '2015-11-26 12:30:27');
+INSERT INTO `projects` (`id`, `title`, `description`, `user_id`, `done`, `create_date`, `finish_date`) VALUES
+(1, 'safasf', '<p>asfasf</p>\r\n', 106, 0, '2015-11-29 13:09:13', '0000-00-00 00:00:00'),
+(2, 'სათაური', '<p>asfsaf</p>\r\n', 106, 0, '2015-11-30 18:11:00', '0000-00-00 00:00:00'),
+(4, 'asfa', '<p>asfsaf</p>\r\n', 0, 0, '2015-11-30 13:11:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -580,7 +586,7 @@ INSERT INTO `projects` (`id`, `title`, `description`, `user_id`, `create_date`) 
 --
 
 CREATE TABLE IF NOT EXISTS `schelude` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `freight_number` varchar(10) CHARACTER SET utf8 NOT NULL,
   `start_date` varchar(200) CHARACTER SET utf8 NOT NULL,
   `end_date` varchar(200) CHARACTER SET utf8 NOT NULL,
@@ -602,7 +608,7 @@ INSERT INTO `schelude` (`id`, `freight_number`, `start_date`, `end_date`, `statu
 --
 
 CREATE TABLE IF NOT EXISTS `slider` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `title` varchar(200) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
   `image` varchar(200) CHARACTER SET utf8 NOT NULL,
@@ -627,7 +633,7 @@ INSERT INTO `slider` (`id`, `title`, `description`, `image`, `link`, `position`)
 --
 
 CREATE TABLE IF NOT EXISTS `tasks` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
   `status` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -644,14 +650,12 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `title`, `description`, `status`, `done`, `project_id`, `user_id`, `attachment`, `create_date`, `finish_date`) VALUES
-(1, 'safasfsa', 'safsaf', '', 1, 2, 106, 'index.php', '2015-11-26 14:10:53', '2015-11-28 10:38:24'),
-(2, 'safasfsaasfaf', 'asfa', '', 1, 2, 106, 'index.php', '2015-11-26 14:16:20', '2015-11-28 10:38:25'),
-(3, 'asfasf', 'asfaf', '', 1, 2, 106, 'index.php', '2015-11-26 14:29:26', '2015-11-28 10:40:08'),
+(1, 'safasfsa', 'safsaf', 'front-end', 1, 2, 106, 'index.php', '2015-11-26 14:10:53', '2015-11-29 10:22:36'),
+(2, 'safasfsaasfaf', 'asfa', 'front-end', 1, 2, 106, 'index.php', '2015-11-26 14:16:20', '2015-11-29 10:22:37'),
+(3, '4124', '123', 'back-end', 1, 2, 107, 'index.php', '2015-11-28 15:11:00', '2015-11-29 10:22:37'),
 (4, 'ასფსაფ', 'ასფასფასფ', '', 0, 2, 108, 'irakli-garibashvili.jpg', '2015-11-26 14:45:36', '0000-00-00 00:00:00'),
 (5, 'ასფსაფ', 'ასფასფასფ', '', 0, 2, 108, 'irakli-garibashvili.jpg', '2015-11-26 14:46:28', '0000-00-00 00:00:00'),
-(6, '', '', 'content', 0, 2, 106, '', '2015-11-26 17:11:42', '0000-00-00 00:00:00'),
 (7, 'zsfsasfaf', 'asfafaf', 'front-end', 0, 2, 106, 'license.txt', '2015-11-26 17:12:46', '0000-00-00 00:00:00'),
-(8, '', '', 'content', 0, 2, 106, '', '2015-11-28 13:09:20', '0000-00-00 00:00:00'),
 (9, 'asfaf', '', 'აირჩიეთ ტიპი', 0, 2, 115, '', '2015-11-28 13:34:15', '0000-00-00 00:00:00'),
 (10, 'სატესტოდ', 'არჭერა', 'content', 0, 2, 115, '', '2015-11-28 13:37:23', '0000-00-00 00:00:00');
 
@@ -662,7 +666,7 @@ INSERT INTO `tasks` (`id`, `title`, `description`, `status`, `done`, `project_id
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-`id` int(5) NOT NULL,
+  `id` int(5) NOT NULL,
   `name_en` varchar(50) CHARACTER SET utf8 NOT NULL,
   `name_ge` varchar(50) CHARACTER SET utf8 NOT NULL,
   `balance` varchar(200) DEFAULT NULL,
@@ -702,91 +706,91 @@ INSERT INTO `users` (`id`, `name_en`, `name_ge`, `balance`, `birthday`, `mobile`
 -- Indexes for table `admins`
 --
 ALTER TABLE `admins`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `amanati`
 --
 ALTER TABLE `amanati`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ci_sessions`
 --
 ALTER TABLE `ci_sessions`
- ADD PRIMARY KEY (`id`), ADD KEY `ci_sessions_timestamp` (`timestamp`);
+  ADD PRIMARY KEY (`id`), ADD KEY `ci_sessions_timestamp` (`timestamp`);
 
 --
 -- Indexes for table `close_day`
 --
 ALTER TABLE `close_day`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `curency`
 --
 ALTER TABLE `curency`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `navigation`
 --
 ALTER TABLE `navigation`
- ADD PRIMARY KEY (`id`), ADD KEY `id` (`id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `news`
 --
 ALTER TABLE `news`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pages`
 --
 ALTER TABLE `pages`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `schelude`
 --
 ALTER TABLE `schelude`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `slider`
 --
 ALTER TABLE `slider`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tasks`
 --
 ALTER TABLE `tasks`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`id`), ADD KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`), ADD KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -796,72 +800,72 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `amanati`
 --
 ALTER TABLE `amanati`
-MODIFY `id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=145;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=145;
 --
 -- AUTO_INCREMENT for table `close_day`
 --
 ALTER TABLE `close_day`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=98;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `curency`
 --
 ALTER TABLE `curency`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `navigation`
 --
 ALTER TABLE `navigation`
-MODIFY `id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `schelude`
 --
 ALTER TABLE `schelude`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `slider`
 --
 ALTER TABLE `slider`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=116;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=116;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

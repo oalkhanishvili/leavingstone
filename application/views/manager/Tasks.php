@@ -9,7 +9,7 @@
               <div class="row">
                   <div class="col-lg-12">
                       <h1 class="page-header">
-                          <?=$project_title['title']?>
+                          პროექტი: <?=$project_title['title']?>
                       </h1>
                       <ol class="breadcrumb">
                           <li>
@@ -113,7 +113,7 @@
     <tr class="<?php  echo  $item['done']==0 ? '': 'success' ?>">
         <td>
         <!-- Split button -->
-        <?php echo form_open('manager/done/'.$item['id'] , array('id' => $item['id'], 'class' => 'shesruleba')); ?>
+        <?php echo form_open('manager/done/'.$item['id'].'/tasks' , array('id' => $item['id'], 'class' => 'shesruleba')); ?>
         <div class="btn-group">
           <?php if ( $item['done'] == 1){
                   $a = 0;
@@ -122,16 +122,17 @@
               }
            ?>
            <input  type="hidden" name="done" value="<?php echo $a; ?>" data-id="<?=$item['id']; ?>">
-              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <button class="btn btn-danger" type="submit" data-id="<?=$item['id']; ?>">Done</button>
+          <button  class="glyphicon <?=($a==1)?'glyphicon-unchecked':'glyphicon-check';?>" type="submit" data-id="<?=$item['id']; ?>"></button>
+
           <ul class="dropdown-menu">
-            <li><a href="<?=base_url('manager/detail_task/'.$item['id'])?>">დეტალურად</a></li>
-            <li><a href="">რედაქტირება</a></li>
-            <li> <a href="" onclick="confirm_delete()">წაშლა</a></li>
+            <li><a href="<?=site_url('manager/detail_task/'.$item['id'])?>;">დეტალურად</a></li>
+            <li><a href="<?=site_url('manager/edit_task/'.$item['id']);?>">რედაქტირება</a></li>
+            <li> <a href="<?=site_url('manager/delete_task/'.$item['id']);?>" onclick="confirm_delete()">წაშლა</a></li>
           </ul>
+          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-option-vertical"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
         </div>
         </form>
        </td>

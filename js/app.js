@@ -16,14 +16,38 @@
 $('body').on('submit', 'form.shesruleba', function(e) {
     e.preventDefault();
     var tr = $(this).closest('tr');
+    var button = $(this).find('.glyphicon');
     $.post( $(this).attr('action'), $(this).serialize(), function(resp) {
         tr.toggleClass('success');
         var value = tr.find('input[name=done]').attr("value")
         if(value == 1) {
             tr.find('input[name=done]').attr("value", 0);
+            button.removeClass('glyphicon-unchecked').addClass('glyphicon-check');
         }
         else if (value == 0) {
             tr.find('input[name=done]').attr("value", 1);
+            button.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+        }
+
+        if ( resp == 'ok' ) {
+            alert('დეკლარაცია შევსებულია');
+        }
+    });
+});
+$('body').on('submit', 'form.project_shesruleba', function(e) {
+    e.preventDefault();
+    var tr = $(this).closest('tr');
+    var button = $(this).find('.glyphicon');
+    $.post( $(this).attr('action'), $(this).serialize(), function(resp) {
+        tr.toggleClass('success');
+        var value = tr.find('input[name=done]').attr("value")
+        if(value == 1) {
+            tr.find('input[name=done]').attr("value", 0);
+            button.removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+        }
+        else if (value == 0) {
+            tr.find('input[name=done]').attr("value", 1);
+            button.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
         }
 
         if ( resp == 'ok' ) {
