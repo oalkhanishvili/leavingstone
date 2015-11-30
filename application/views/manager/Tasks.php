@@ -99,11 +99,17 @@
     <table class="table table-striped table-bordered table-hover dataTable" id="datatable">
     <thead>
     <tr>
-    <th><span class="glyphicon glyphicon-th"></span></th>
-      <th>სათაური</th>
+      <th <?php if ($sort_by == 'done' ){echo "class=\"sort_$sort_order\"" ;}?>>
+        <?php echo anchor("manager/tasks/".$tasks_list[0]['project_id']."/done/".
+      (($sort_order == 'asc' && $sort_by == 'done')?'desc':'asc'),'<span class="glyphicon glyphicon-th"></span>'); ?></th>
+      <th <?php if ($sort_by == 'title' ){echo "class=\"sort_$sort_order\"" ;}?>>
+        <?php echo anchor("manager/tasks/".$tasks_list[0]['project_id']."/title/".
+      (($sort_order == 'asc' && $sort_by == 'title')?'desc':'asc'),'სათაური'); ?></th>
       <th>სტატუსი</th>
       <th>შემსრულებელი</th>
-      <th>შექმ.დრო</th>
+      <th <?php if ($sort_by == 'create_date' ){echo "class=\"sort_$sort_order\"" ;}?>>
+        <?php echo anchor("manager/tasks/".$tasks_list[0]['project_id']."/create_date/".
+      (($sort_order == 'asc' && $sort_by == 'create_date')?'desc':'asc'),'შექმ.დრო'); ?></th>
       <th>დასრ.დრო</th>
     </tr>
     </thead>
@@ -125,7 +131,7 @@
           <button  class="glyphicon <?=($a==1)?'glyphicon-unchecked':'glyphicon-check';?>" type="submit" data-id="<?=$item['id']; ?>"></button>
 
           <ul class="dropdown-menu">
-            <li><a href="<?=site_url('manager/detail_task/'.$item['id'])?>;">დეტალურად</a></li>
+            <li><a href="<?=site_url('manager/detail_task/'.$item['id']);?>">დეტალურად</a></li>
             <li><a href="<?=site_url('manager/edit_task/'.$item['id']);?>">რედაქტირება</a></li>
             <li> <a href="<?=site_url('manager/delete_task/'.$item['id']);?>" onclick="confirm_delete()">წაშლა</a></li>
           </ul>
@@ -140,7 +146,7 @@
         <td><?=$item['status'];?></td>
         <td><?=$item['name_en'];?></td>
         <td><?= date( 'd/m/y -> H:i', strtotime($item['create_date']) );?></td>
-        <td><?= (!empty(strtotime($item['finish_date'])))?
+        <td class="progress-date"><?= (!empty(strtotime($item['finish_date'])))?
         date( 'd/m/y -> H:i', strtotime($item['finish_date']) ):'პროცესში';?></td>
     </tr>
   <?php endforeach; ?>

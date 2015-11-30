@@ -122,7 +122,7 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #222;
+        background-color: #f5f5f5;
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
@@ -247,14 +247,14 @@ ul.alert-dropdown {
 .table > thead > tr.success > th,
 .table > tbody > tr.success > th,
 .table > tfoot > tr.success > th {
-  background-color: #86E061;
+  background-color: #BCF3C5;
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr:hover > .success,
 .table-hover > tbody > tr.success:hover > th {
-  background-color: #53C525;
+  background-color: #94dd9f;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,

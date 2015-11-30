@@ -10,7 +10,6 @@ class manager extends CI_Controller{
 		}
 	}
 	public function index(){
-
 		$this->load->view('manager/header');
 		$data['admin_name'] = $this->session->userdata('logged');
 		$this->load->view('manager/top-menu' ,$data);
@@ -24,12 +23,12 @@ class manager extends CI_Controller{
 		$this->load->view('manager/footer');
 	}
 	public function login(){
-		$username=$this->input->post('username');
+		$username=$this->input->post('email');
 		$password=md5($this->input->post('password'));
 		if ( $this->manager_model->admin_login($username, $password) == FALSE ){
 			$this->load->view('manager/login-form');
 		}else{
-			$user_id = $this->db->select('id')->where('username', $username)->get('users')->row()->id;
+			$user_id = $this->manager_model->admin_login($username, $password);
 			$this->session->set_userdata('user_id', $user_id);
 			$this->session->set_userdata('logged', $username);
 			redirect('manager');
@@ -108,13 +107,15 @@ class manager extends CI_Controller{
 		$this->session->mark_as_flash('message');
 		redirect('manager/tasks/'.$this->db->insert_id());
 	}
-	public function tasks($id){
+	public function tasks($id,$sort_by='id', $sort_order='desc'){
 		$this->load->view('manager/header');
 		$data['admin_name'] = $this->session->userdata('logged');
 		$data['project_id'] = $id;
 		$data['project_title'] = $this->manager_model->selectById('projects','title',$id);
 		$data['users_list'] = $this->manager_model->selectAll('users','id,name_en');
-		$data['tasks_list'] = $this->manager_model->selectTasksById('project_id', $id);
+		$data['sort_by'] = $sort_by;
+		$data['sort_order'] = $sort_order;
+		$data['tasks_list'] = $this->manager_model->selectTasksById($id,$sort_by,$sort_order);
 		$this->load->view('manager/top-menu', $data);
 		$this->load->view('manager/side-navigation');
 		$this->load->view('manager/Tasks', $data);

@@ -7,9 +7,9 @@ class manager_model extends CI_Model{
 	}
 
 	public function admin_login($username, $password){
-		$this->db->select('id, username, password');
-		$this->db->from('admins');
-		$this->db->where('username', $username);
+		$this->db->select('id');
+		$this->db->from('users');
+		$this->db->where('email', $username);
 		$this->db->where('password', $password);
 		$query=$this->db->get();
 		if ( $query->num_rows() > 0 ){
@@ -79,9 +79,16 @@ class manager_model extends CI_Model{
 		}
 		return false;
 	}
-	public function selectTasksById($field,$id){
+	public function selectTasksById($id, $sort_by, $sort_order){
+		$sort_order = ( $sort_order == 'desc' )?'desc':'asc';
+		$sort_columns = array(
+			'title','done',
+			'create_date'
+			);
+		$sort_by = (in_array($sort_by, $sort_columns))?$sort_by:'id';
 		$query = $this->db->select('tasks.*,users.name_en')
-			->where('tasks.'.$field, $id)
+			->where('tasks.project_id', $id)
+			->order_by($sort_by,$sort_order)
 			->join('users','users.id=tasks.user_id')->get('tasks');
 		if ( $query->num_rows() > 0 ){
 			foreach ( $query->result_array() as $row ){

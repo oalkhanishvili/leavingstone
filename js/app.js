@@ -13,20 +13,37 @@
 //   		});
 //   		return false;
 //     });
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
 $('body').on('submit', 'form.shesruleba', function(e) {
     e.preventDefault();
     var tr = $(this).closest('tr');
+    var td = tr.find('.progress-date');
     var button = $(this).find('.glyphicon');
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getFullYear().toString().substr(2,2);
+    var hour = addZero(date.getHours());
+    var minute = addZero(date.getMinutes());
+    console.log(td);
+
     $.post( $(this).attr('action'), $(this).serialize(), function(resp) {
         tr.toggleClass('success');
         var value = tr.find('input[name=done]').attr("value")
         if(value == 1) {
             tr.find('input[name=done]').attr("value", 0);
             button.removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+            td.text(day+'/'+month+'/'+year+'-> '+hour+':'+minute);
         }
         else if (value == 0) {
             tr.find('input[name=done]').attr("value", 1);
             button.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+            td.text('პროცესში');
         }
 
         if ( resp == 'ok' ) {
@@ -38,16 +55,28 @@ $('body').on('submit', 'form.project_shesruleba', function(e) {
     e.preventDefault();
     var tr = $(this).closest('tr');
     var button = $(this).find('.glyphicon');
+    var td = tr.find('.progress-date');
+    var status = tr.find('.progress-status');
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getFullYear().toString().substr(2,2);
+    var hour = addZero(date.getHours());
+    var minute = addZero(date.getMinutes());
     $.post( $(this).attr('action'), $(this).serialize(), function(resp) {
         tr.toggleClass('success');
         var value = tr.find('input[name=done]').attr("value")
         if(value == 1) {
             tr.find('input[name=done]').attr("value", 0);
             button.removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+            td.text(day+'/'+month+'/'+year+'-> '+hour+':'+minute);
+            status.text('დასრულებულია');
         }
         else if (value == 0) {
             tr.find('input[name=done]').attr("value", 1);
             button.removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+            td.text('პროცესში');
+            status.text('პროცესშია');
         }
 
         if ( resp == 'ok' ) {

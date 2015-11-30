@@ -6,6 +6,12 @@
 <style>
 	@import url(http://weloveiconfonts.com/api/?family=fontawesome);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url(http://weloveiconfonts.com/api/?family=zocial);
+
+/* zocial */
+[class*="zocial-"]:before {
+  font-family: 'zocial', sans-serif;
+}
 [class*="fontawesome-"]:before {
   font-family: 'FontAwesome', sans-serif;
 }
@@ -158,11 +164,11 @@ input {
             <a href="#" class="alert-link"><?php echo $_SESSION['message']; ?></a>
         </div>
     <?php endif; ?>
-      <form action="" method="post" class="form form--login">
+      <form action="<?=site_url('register/create');?>" method="post" class="form form--login">
 
         <div class="form__field">
-          <label class="fontawesome-user" for="login__username"><span class="hidden">Email</span></label>
-          <input id="login__username" type="text" class="form__input" placeholder="ელ.ფოსტა" name="email" required>
+          <label class="zocial-email" for="login__email"><span class="hidden">Email</span></label>
+          <input id="login__username" type="text" class="form__input" placeholder="ელ.მისამართი" name="email" required>
         </div>
 
         <div class="form__field">
@@ -171,11 +177,20 @@ input {
         </div>
 
         <div class="form__field">
+          <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
+          <input id="login__cf_password" type="password" class="form__input" placeholder="გაიმეორეთ პაროლი" name="cf_password" required>
+        </div>
+
+        <div class="form__field">
+          <label class="fontawesome-user" for="login__fullname"><span class="hidden">Fullname</span></label>
+          <input id="login__fullname" type="text" class="form__input" placeholder="სახელი და გვარი" name="fullname" required>
+        </div>
+        <div class="form__field">
           <input type="submit" value="Sign In">
         </div>
 
       </form>
-    <a href="<?=site_url('register');?>">რეგისტრაცია</a>
+
     </div>
 
   </div>
