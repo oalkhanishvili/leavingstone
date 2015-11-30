@@ -57,7 +57,38 @@ class manager_model extends CI_Model{
 		}
 		return false;
 	}
+	public function selectLastAdded($table){
+		$query  = $this->db->select('*')
+			->order_by('id','desc')
+			->get($table, 8);
+
+		if ( $query->num_rows() > 0 ){
+			foreach ( $query->result_array() as $row ){
+				$result[] = $row;
+			}
+			return $result;
+		}
+		return false;
+	}
 	//
+	public function selectMyTasks($id, $sort_by, $sort_order){
+			$sort_order = ( $sort_order == 'desc' )?'desc':'asc';
+			$sort_columns = array(
+				'title','done',
+				'create_date'
+				);
+			$sort_by = (in_array($sort_by, $sort_columns))?$sort_by:'id';
+			$query = $this->db->select('tasks.*,projects.title as p_name')
+				->where('tasks.user_id', $id)
+				->join('projects','projects.id=tasks.project_id')->get('tasks');
+			if ( $query->num_rows() > 0 ){
+				foreach ($query->result_array() as $row) {
+					$result[] = $row;
+				}
+				return $result;
+			}
+			return false;
+	}
 	public function selectAllProjects(){
 		$query = $this->db->select('projects.*,users.id as u_id,users.name_en')
 			->join('users','users.id=projects.user_id')->get('projects');

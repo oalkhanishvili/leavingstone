@@ -17,7 +17,7 @@ class manager extends CI_Controller{
 		$result = $this->manager_model->count_table('users');
 		$data['user_count'] = $result;
 		$data['parcels_count'] = $this->manager_model->count_table('amanati');
-		$data['last_transaction'] = $this->manager_model->last_transaction();
+		$data['last_transaction'] = $this->manager_model->selectLastAdded('tasks');
 		$data['last_parcel'] = $this->manager_model->last_parcel();
 		$this->load->view('manager/index', $data);
 		$this->load->view('manager/footer');
@@ -100,12 +100,23 @@ class manager extends CI_Controller{
 			'title' => $this->input->post('title'),
 			'description' => $this->input->post('description'),
 			'user_id' => $this->session->userdata('user_id'),
-
 		);
 		$this->db->insert('Projects', $data);
 		$_SESSION['message'] = 'ჩანაწერი დამატებულია';
 		$this->session->mark_as_flash('message');
 		redirect('manager/tasks/'.$this->db->insert_id());
+	}
+	public function my_tasks($sort_by='id', $sort_order='desc'){
+		$this->load->view('manager/header');
+		$data['admin_name'] = $this->session->userdata('logged');
+		$data['sort_by'] = $sort_by;
+		$data['sort_order'] = $sort_order;
+		$id = $this->session->userdata('user_id');
+		$data['tasks_list'] = $this->manager_model->selectMyTasks($id,$sort_by,$sort_order);
+		$this->load->view('manager/top-menu', $data);
+		$this->load->view('manager/side-navigation');
+		$this->load->view('manager/My_tasks', $data);
+		$this->load->view('manager/footer');
 	}
 	public function tasks($id,$sort_by='id', $sort_order='desc'){
 		$this->load->view('manager/header');
