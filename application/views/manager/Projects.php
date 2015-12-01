@@ -77,7 +77,7 @@
        </td>
         <td><?=$item['title'];?></td>
         <td class="progress-status"><?=($item['done']==1)?'დასრულებულია':'პროცესშია';?></td>
-        <td><a href="<?=site_url('manager/user_edit/'.$item['u_id']);?>"><?=$item['name_en'];?></a></td>
+        <td><?=$item['name_en'];?></td>
         <td><?= date( 'd/m/y -> H:i', strtotime($item['create_date']) );?></td>
         <td class="progress-date"><?= (!empty(strtotime($item['finish_date'])))?
         date( 'd/m/y -> H:i', strtotime($item['finish_date']) ):'პროცესში';?></td>

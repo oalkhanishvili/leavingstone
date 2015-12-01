@@ -30,9 +30,6 @@
 
                         </ul>
                     </li>
-                     <li>
-                        <a href="<?php echo site_url('manager/settings');?>"><i class="fa fa-fw fa-wrench"></i> პარამეტრები</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

@@ -1,6 +1,6 @@
 
-            
-           
+
+
 
         <div id="page-wrapper">
 
@@ -21,7 +21,7 @@
                 </div>
                 <!-- /.row -->
 
-            
+
 
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
@@ -32,14 +32,14 @@
                                         <i class="fa fa-list-alt fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php echo $parcels_count ?></div>
-                                        <div>ამანათი</div>
+                                        <div class="huge"><?php echo $tasks_count ?></div>
+                                        <div>დავალება</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?php echo site_url('manager/amanatebi'); ?>">
+                            <a href="<?php echo site_url('manager/projects'); ?>">
                                 <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-left">მანახე დეტალურად</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
@@ -55,59 +55,57 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"><?php echo $user_count; ?></div>
-                                        <div>რეგისტრირებლი</div>
+                                        <div>რეგისტრირებული</div>
                                     </div>
                                 </div>
                             </div>
                             <a href="<?php echo site_url('manager/user_list'); ?>">
                                 <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-left">მანახე დეტალურად</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    
+
                 </div>
-               
+
 
                 <div class="row">
-                    
+
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
+                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> ბოლო პროექტები</h3>
                             </div>
                             <div class="panel-body">
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>მომხმარებელი #</th>
-                                                <th>დებიტი</th>
-                                                <th>ჩამოჭრა</th>
-                                                <th>დრო</th>
+                                                <th>სათაური</th>
+                                                <th>ავტორი</th>
+                                                <th>შექმ. დრო</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if ( !empty($last_parcel) ): 
-                                                foreach ( $last_parcel as $item ): ?>
+                                            if ( !empty($last_project) ):
+                                                foreach ( $last_project as $item ): ?>
                                             <tr>
-                                                <td><?php echo'TSG'.str_pad($item['kodi'],5,'0',STR_PAD_LEFT);?></td>
-                                                <td><?php echo $item['amanati']; ?></td>
-                                                <td><?php echo $item['saxeli']; ?></td>
-                                                <td><?php echo $item['freight']; ?></td>
+                                                <td><?php echo $item['title']; ?></td>
+                                                <td><?php echo $item['name_en']; ?></td>
+                                                <td><?php echo $item['create_date']; ?></td>
                                             </tr>
                                             <?php endforeach;
                                             endif; ?>
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="text-right">
-                                    <a href="<?php echo site_url('manager/amanatebi'); ?>">მაჩვენე ყველა ამანათი <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="<?php echo site_url('manager/projects'); ?>">მაჩვენე ყველა პროექტი <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -115,37 +113,32 @@
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> ბოლო ტრანსაქციები</h3>
+                                <h3 class="panel-title"><i class="fa fa-tasks fa-fw"></i> ბოლო დავალებები</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>მომხმარებელი #</th>
-                                                <th>დებიტი</th>
-                                                <th>ჩამოჭრა</th>
+                                                <th>სათაური</th>
+                                                <th>ავტორი</th>
                                                 <th>დრო</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if ( !empty($last_transaction) ): 
-                                                foreach ( $last_transaction as $item ): ?>
+                                            if ( !empty($last_tasks) ):
+                                                foreach ( $last_tasks as $item ): ?>
                                             <tr>
-                                                <td><?php echo'TSG'.str_pad($item['user_id'],5,'0',STR_PAD_LEFT);?></td>
-                                                <td><?php echo $item['debit']; ?></td>
-                                                <td><?php echo $item['credit']; ?></td>
-                                                <td><?php echo $item['date']; ?></td>
+                                                <td><?php echo $item['title'];?></td>
+                                                <td><?php echo $item['name_en']; ?></td>
+                                                <td><?php echo $item['create_date']; ?></td>
                                             </tr>
                                             <?php endforeach;
                                             endif; ?>
-                                           
+
                                         </tbody>
                                     </table>
-                                </div>
-                                <div class="text-right">
-                                    <a href="<?php echo site_url('manager/transaction');?>">მაჩვენე ყველა ტრანსაქცია <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
